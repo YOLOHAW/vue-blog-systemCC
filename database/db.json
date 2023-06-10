@@ -1,0 +1,44 @@
+{
+  "posts": [
+    {
+      "title": "VueJs",
+      "body": "VueJs is javascript framework",
+      "tags": [
+        "frontend"
+      ],
+      "id": 1
+    },
+    {
+      "title": "Laravel",
+      "body": "Laravel is php framework",
+      "tags": [
+        "backend"
+      ],
+      "id": 2
+    },
+    {
+      "title": "kali",
+      "body": "kali linux is for pentesting.",
+      "tags": [
+        "ethical hacking"
+      ],
+      "id": 3
+    },
+    {
+      "title": "Java",
+      "body": "Java is for Android ",
+      "tags": [
+        "android dev"
+      ],
+      "id": 4
+    },
+    {
+      "title": "Dart",
+      "body": "Dart is for flutter development",
+      "tags": [
+        "android dev"
+      ],
+      "id": 5
+    }
+  ]
+}
