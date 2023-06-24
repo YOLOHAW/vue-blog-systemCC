@@ -1,5 +1,5 @@
 import { ref } from "vue";
-
+import { db,timestamp } from "@/firebase/config";
 let getPosts=()=>{
     
     let error=ref("");
@@ -12,16 +12,16 @@ let getPosts=()=>{
       //   setTimeout(resolve,3000)
       //    })
     
-      let response=await fetch("http://localhost:3000/posts")
-      if(response.status==404){
-        throw new Error("NOT FOUND URL")
-      }
-      let datas=await response.json()
-      posts.value=datas
-      // let res=await db.collection("posts").get()
-      // posts.value=res.docs.map((doc)=>{
-      //   return {id:doc.id,...doc.data()}
-      // }) 
+      // let response=await fetch("http://localhost:3000/posts")
+      // if(response.status==404){
+      //   throw new Error("NOT FOUND URL")
+      // }
+      // let datas=await response.json()
+      // posts.value=datas
+      let res=await db.collection("posts").orderBy("created_at","desc").get()
+      posts.value=res.docs.map((doc)=>{
+        return {id:doc.id,...doc.data()}
+      }) 
 
     } catch(err){
         error.value=err.message

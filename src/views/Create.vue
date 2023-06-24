@@ -7,11 +7,12 @@
     <label for="body">Body: </label>
     <textarea name="body" id="body" cols="30" rows="10" v-model="body"></textarea>
     <br>
-    <label for="tags">Hit enter to add a tag(Tags)</label>
+    <label>Hit enter to add a tag(Tags)</label>
+    <input type="text" v-model="tag" @keydown.enter.prevent="handlekeyDown">
     <div v-for="tag in tags" :key="tag" class="pill">
         {{tag}}
     </div>
-    <input type="text" v-model="tag" @keydown.enter.prevent="handlekeyDown">
+    
     <button>Submit</button>
 
   </form>
@@ -20,6 +21,7 @@
 <script>
 import { ref } from 'vue'
 import {useRouter} from 'vue-router';
+import { db,timestamp } from '@/firebase/config';
 export default {
     setup(){
         let title=ref("")
@@ -36,18 +38,21 @@ export default {
         }
 
         let addPost=async()=>{
-            await fetch("http://localhost:3000/posts",{
-                method:'POST',
-                headers:{
-                    "Content-type":"application/json"
-                },
-                body:JSON.stringify({
-                    title:title.value,
-                    body:body.value,
-                    tags:tags.value
-                })
-            }
-            )
+            // await fetch("http://localhost:3000/posts",{
+            //     method:'POST',
+            //     headers:{
+            //         "Content-type":"application/json"
+            //     },
+            //     body:JSON.stringify({
+            //         title:title.value,
+            //         body:body.value,
+            //         tags:tags.value
+            //     })
+            // }
+            // )
+            let newPost={title:title.value,body:body.value,tags:tags.value,created_at:timestamp()}
+            let res=await db.collection("posts").add(newPost)
+            console.log(res);
             router.push('/');
             
         }

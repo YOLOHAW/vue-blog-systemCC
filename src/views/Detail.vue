@@ -1,8 +1,9 @@
 <template>
-    <h1>Detail {{id}}</h1>
+    <h1>Detail ID</h1>
   <div v-if="post" class="post">
     <h1>{{post.title}}</h1>
     <p>{{post.body}}</p>
+    <button class="delete" @click="deletePost">Delete</button>
   </div>
    <div v-else>Loading...</div>
 </template>
@@ -10,13 +11,21 @@
 <script>
 import getPost from "../composable/getPost"
 import {useRoute} from "vue-router"
+import {useRouter} from "vue-router"
+import { db } from '@/firebase/config'
 export default {
  props:['id'],
  setup(props){
     let route=useRoute();
+    let router=useRouter();
      let {error,post,load} = getPost(route.params.id)
     load();
-    return {error,post}
+    let deletePost=async()=>{
+      let id=props.id
+      await db.collection("posts").doc(id).delete()
+      router.push({name:'Home'})
+    }
+    return {error,post,deletePost}
  }
 }
 </script>
@@ -55,5 +64,8 @@ export default {
     padding: 8px;
     border-radius: 20px;
     font-size: 14px;
+  }
+   button.delete{
+    margin:30px auto;
   }
 </style>
